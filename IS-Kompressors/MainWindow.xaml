@@ -1,0 +1,1315 @@
+﻿<mah:MetroWindow x:Class="IS_Kompressors.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:IS_Kompressors"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:datavis="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        mc:Ignorable="d"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/xaml/charts"
+        WindowState="Maximized"
+        Title="ИС Компрессорное оборудование" 
+        WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen" 
+        >
+    <Window.Resources>
+
+        <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
+            <Grid x:Name="RootGrid"
+                      Height="40"
+                      Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ContentControl Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Icon}"
+                                    Focusable="False"
+                                    Foreground="White" />
+                <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="White"
+                               Text="{Binding Label}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="DateTemplate1" >
+            <TextBlock Text="{Binding date_aEquipment, 
+               StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="EditingDateTemplate1">
+            <DatePicker SelectedDate="{Binding date_aEquipment, Mode=TwoWay,
+     UpdateSourceTrigger=PropertyChanged}"  />
+        </DataTemplate>
+        <DataTemplate x:Key="DateTemplate2" >
+            <TextBlock Text="{Binding date_aEquipment, 
+               StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="EditingDateTemplate2">
+            <DatePicker SelectedDate="{Binding date_receipt, Mode=TwoWay,
+     UpdateSourceTrigger=PropertyChanged}"  />
+        </DataTemplate>
+        <DataTemplate x:Key="DateTemplate3" >
+            <TextBlock Text="{Binding date_aParts, 
+               StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="EditingDateTemplate3">
+            <DatePicker SelectedDate="{Binding date_aParts, Mode=TwoWay,
+     UpdateSourceTrigger=PropertyChanged}"  />
+        </DataTemplate>
+
+        <Style x:Key="DataGridCell" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Background" Value="#FF444444"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LargeTileStyle" TargetType="mah:Tile">
+            <Setter Property="Width" Value="500" />
+            <Setter Property="Height" Value="255" />
+            <Setter Property="TitleFontSize" Value="15" />
+
+        </Style>
+
+        <Style x:Key="SmallTileStyle" TargetType="mah:Tile">
+            <Setter Property="Width" Value="247" />
+            <Setter Property="Height" Value="175" />
+            <Setter Property="TitleFontSize" Value="15" />
+        </Style>
+
+    </Window.Resources>
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button Content="настройки" Click="tileSettings_Click" />
+            <Button Click="tileAbout_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                               
+                   Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{iconPacks:Material Information}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                   VerticalAlignment="Center"
+                   Text="о программе" />
+                </StackPanel>
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <Grid Background="White">
+        <mah:HamburgerMenu x:Name="HamburgerMenuControl"
+                        Foreground="White"
+                        ItemTemplate="{StaticResource MenuItemTemplate}"
+                        OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                        PaneBackground="#FF444444"
+                        DisplayMode="CompactInline"
+                        ItemClick="HamburgerMenuControl_OnItemClick"
+                        OptionsItemClick="HamburgerMenuControl_OnItemClick" OverridesDefaultStyle="True" SelectedIndex="0">
+            <!--  Content  -->
+            <mah:HamburgerMenu.ContentTemplate>
+
+                <DataTemplate DataType="{x:Type mah:HamburgerMenuIconItem}">
+                    <Grid x:Name="TheContentGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="56" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                    Background="#FF444444">
+                            <TextBlock x:Name="Header"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Foreground="White"
+                            Text="{Binding Label}" />
+                        </Border>
+                        <ContentControl x:Name="TheContent"
+                            Grid.Row="1"     
+                            ScrollViewer.CanContentScroll="True"
+                            Focusable="False"
+                            Foreground="{DynamicResource BlackBrush}"
+                            Content="{Binding Tag}" mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" IsManipulationEnabled="True" />
+                    </Grid>
+                </DataTemplate>
+            </mah:HamburgerMenu.ContentTemplate>
+            <!--  Items  -->
+            <mah:HamburgerMenu.ItemsSource>
+                <mah:HamburgerMenuItemCollection>
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Home}" x:Name="menuMain" Label="Главная">
+
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <Grid>
+                                <WrapPanel Margin="30px" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <mah:Tile x:Name="tileEquipment" Style="{StaticResource LargeTileStyle}" Click="tileEquipment_Click" Title="Оборудование" >
+                                        <iconPacks:Material Width="125" Height="125" Kind="Caravan"/>
+                                    </mah:Tile>
+                                    <mah:Tile x:Name="tileParts" Style="{StaticResource LargeTileStyle}" Click="tileParts_Click" Title="Запчасти" >
+                                        <iconPacks:Material Width="125" Height="125" Kind="CarBattery"/>
+                                    </mah:Tile>
+                                    <mah:Tile x:Name="tileKlients" Style="{StaticResource SmallTileStyle}" Click="tileKlients_Click" VerticalAlignment="Bottom" Title="Производители" >
+                                        <iconPacks:Material Width="75" Height="75" Kind="Account"/>
+                                    </mah:Tile>
+                                    <mah:Tile x:Name="tileCategories" Style="{StaticResource SmallTileStyle}" Click="tileCategories_Click" Title="Категории" >
+                                        <iconPacks:Material Width="75" Height="75" Kind="BookMultipleVariant"/>
+                                    </mah:Tile>
+                                    <mah:Tile x:Name="tileDiagrams" Style="{StaticResource SmallTileStyle}" Click="tileDiagrams_Click" Title="Отчеты" >
+                                        <iconPacks:Material Width="75" Height="75" Kind="ChartBar"/>
+                                    </mah:Tile>
+                                    <mah:Tile x:Name="tileSettings" Style="{StaticResource SmallTileStyle}" Click="tileSettings_Click" Title="Настройки" >
+                                        <iconPacks:Material Width="75" Height="75" Kind="Settings"/>
+                                    </mah:Tile>
+                                </WrapPanel>
+                            </Grid>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material 407}" x:Name="menuEquipment" Label="Оборудование" >
+
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <mah:MetroAnimatedTabControl x:Name="tabControl" HorizontalAlignment="Left"  VerticalAlignment="Top">
+                                <TabItem Header="Склад">
+                                    <Grid x:Name="gridSklad" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="700px"/>
+                                            <ColumnDefinition Width="500px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                            <ToolBar>
+                                                <Button Click="AddEquipment_Click" ToolTip="добавить оборудование">
+                                                    <Image x:Name="imageEquipmentAdd" Width="50" />
+                                                </Button>
+                                                <Button Click="EditEquipment_Click" ToolTip="редактировать оборудование">
+                                                    <Image x:Name="imageEquipmentEdit" Width="50" />
+                                                </Button>
+                                                <Button Click="DeleteEquipment_Click" ToolTip="удалить оборудование">
+                                                    <Image x:Name="imageEquipmentDelete" Width="50"/>
+                                                </Button>
+                                                <Button Click="DownloadEquipment_Click" ToolTip="выгрузить таблицу оборудований в Excel">
+                                                    <Image x:Name="imageEquipmentDownload" Width="50"/>
+                                                </Button>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <DataGrid Margin="30px" Name="dataGridEquipment"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="350"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        MaxWidth="650px"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        CanUserDeleteRows="False" Background="{x:Null}" 
+                                        SelectionChanged="dataGridEquipment_SelectionChanged">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  CellStyle="{StaticResource DataGridCell}" Header="Название" 
+	                    Binding="{Binding name_equipment, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Количество на складе" 
+	                    Binding="{Binding col_equipment, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Цена" 
+	                    Binding="{Binding price_equipment, StringFormat={}{0:F2}, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
+                                            <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Поиск"/>
+                                            <ComboBox Name="searchEquipmentChoise"  Height="26" Width="205" SelectionChanged="searchEquipmentChoise_SelectionChanged">
+                                                <ComboBoxItem Content="По артикулу"/>
+                                                <ComboBoxItem Content="По названию"/>
+                                                <ComboBoxItem Content="По производителю"/>
+                                                <ComboBoxItem Content="По категории"/>
+                                                <ComboBoxItem Content="По количеству на складе"/>
+                                                <ComboBoxItem Content="По цене"/>
+                                            </ComboBox>
+                                            <WrapPanel Margin="147,15,0,0">
+                                                <Grid>
+                                                    <ComboBox 
+                                                Name="searchEquipmentFabricator"
+                                                DisplayMemberPath="name_fabricator"
+                                                SelectedValuePath="id_fabricator"
+                                                Width="205"
+                                                Visibility="Hidden"
+                                                Height="26" 
+                                                SelectionChanged="searchEquipmentFabricator_SelectionChanged"/>
+                                                    <ComboBox 
+                                                Name="searchEquipmentCategories"
+                                                DisplayMemberPath="name_category"
+                                                SelectedValuePath="id_category"
+                                                Width="205"
+                                                Visibility="Hidden"
+                                                Height="26" 
+                                                SelectionChanged="searchEquipmentCategories_SelectionChanged"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchEquipmentCode" Visibility="Hidden" Width="205" Height="26" TextChanged="searchEquipmentCode_TextChanged"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchEquipmentName" Visibility="Hidden" Width="205" Height="26" TextChanged="searchEquipment_TextChanged"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchEquipmentPrice" Visibility="Hidden" Width="205" Height="26" TextChanged="searchEquipmentPrice_TextChanged" PreviewTextInput="searchEquipmentPrice_PreviewTextInput"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchEquipmentCol" Visibility="Hidden" Width="205" Height="26" TextChanged="searchEquipmentCol_TextChanged" PreviewTextInput="searchEquipmentCol_PreviewTextInput"/>
+                                                </Grid>
+                                            </WrapPanel>
+                                            <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация об оборудовании"/>
+                                            <!---->
+                                                <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="nameEquipmentLabel" FontWeight="DemiBold" FontSize="25px"/>
+                                            <LineBreak/>
+                                            <Label x:Name="codeEquipmentLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="categoryEquipmentLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="fabricatorEquipmentLabel"/>
+                                            <LineBreak/>
+                                            <StackPanel>
+                                            <Label x:Name="descriptionEquipment" Visibility="Hidden" Content="Описание: "/>
+                                            <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="descriptionEquipmentLabel"/>
+                                            <Label x:Name="partsEquipment" Visibility="Hidden" Content="Запчасти к оборудованию на складе: "/>
+                                            <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="partsEquipmentLabel"/>
+                                             <Label x:Name="attributesEquipment" Visibility="Hidden" Content="Технические характеристики: "/>
+                                            <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="attributesEquipmentLabel"/>
+                                            </StackPanel>
+                                                <Label FontSize="22px" x:Name="priceEquipmentLabel"/>
+                                                <LineBreak/>
+                                            <Label FontSize="22px" x:Name="colEquipmentLabel"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                </ScrollViewer>
+
+                                                <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать оборудование в Word" x:Name="uploadEquipment" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                                <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать информацию в буфер" x:Name="copyEquipment" Height="50" Width="285"/>
+
+                                            </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Продажи">
+                                    <Grid x:Name="gridSales" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="800px"/>
+                                            <ColumnDefinition Width="500px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                            <ToolBar>
+                                                <Button Click="EquipmentSalesAdd_Click" ToolTip="добавить продажу">
+                                                    <Image x:Name="imageEquipmentSalesAdd" Width="50" />
+                                                </Button>
+                                                <Button Click="EquipmentSalesDelete_Click" ToolTip="удалить продажу">
+                                                    <Image x:Name="imageEquipmentSalesDelete" Width="50"/>
+                                                </Button>
+                                                <Button ToolTip="выгрузить таблицу продаж в Excel">
+                                                    <Image x:Name="imageEquipmentSalesDownload" Width="50"/>
+                                                </Button>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <DataGrid Margin="30px" Name="dataGridEquipmentSales"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="400px"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        MaxWidth="900px"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        CanUserDeleteRows="False" SelectionChanged="dataGridEquipmentSales_SelectionChanged" Background="{x:Null}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  CellStyle="{StaticResource DataGridCell}" Header="Номер" 
+	                    Binding="{Binding id_aEquipment, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                <DataGridComboBoxColumn x:Name="equipmentSalesEq" CellStyle="{StaticResource DataGridCell}"  Header="Оборудование"
+                        DisplayMemberPath="code_equipment"
+                        SelectedValueBinding="{Binding Path=equipment_aEquipment, Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="id_equipment" />
+
+                                                <DataGridTemplateColumn CellStyle="{StaticResource DataGridCell}" Header="Дата продажи" 
+	                   CellTemplate="{StaticResource DateTemplate1}" 
+                          CellEditingTemplate="{StaticResource EditingDateTemplate1}"/>
+                                                
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Количество" 
+	                    Binding="{Binding col_aEquipment, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                                
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Сумма продажи" 
+	                    Binding="{Binding price_aEquipment, StringFormat={}{0:F2}, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                        <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о продаже"/>
+                                                <!---->
+                                            <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                            <Label x:Name="personEquipmentSalesLabel" FontWeight="DemiBold" FontSize="22px"/>
+                                            <LineBreak/>
+                                            <Label x:Name="dateEquipmentSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="colEquipmentSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label FontSize="22px" x:Name="equipmentEquipmentSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label FontSize="22px" x:Name="priceEquipmentSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="pricePerEquipmentSalesLabel"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать оборудование в Word" x:Name="uploadEquipmentSales" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                            <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать информацию в буфер" x:Name="copyEquipmentSales" Height="50" Width="285"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Поставки">
+                                    <Grid x:Name="gridBuys" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="800px"/>
+                                            <ColumnDefinition Width="500px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                            <ToolBar>
+                                                <Button Click="EquipmentBuysAdd_Click" ToolTip="добавить поставку">
+                                                    <Image x:Name="imageEquipmentBuysAdd" Width="50" />
+                                                </Button>
+                                                <Button Click="EquipmentBuysDelete_Click"  ToolTip="удалить поставку">
+                                                    <Image x:Name="imageEquipmentBuysDelete" Width="50"/>
+                                                </Button>
+                                                <Button Click="EquipmentBuysDownload_Click" ToolTip="выгрузить таблицу поставок в Excel">
+                                                    <Image x:Name="imageEquipmentBuysDownload" Width="50"/>
+                                                </Button>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <DataGrid Margin="30px" Name="dataGridEquipmentBuys"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="450"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        MaxWidth="900px"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        CanUserDeleteRows="False" SelectionChanged="dataGridEquipmentBuys_SelectionChanged" Background="{x:Null}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  CellStyle="{StaticResource DataGridCell}" Header="Номер" 
+	                    Binding="{Binding id_aEquipment, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                <DataGridComboBoxColumn x:Name="equipmentBuysEq" CellStyle="{StaticResource DataGridCell}"  Header="Оборудование"
+                        DisplayMemberPath="code_equipment"
+                        SelectedValueBinding="{Binding Path=equipment_aEquipment, Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="id_equipment" />
+
+                                                <DataGridTemplateColumn CellStyle="{StaticResource DataGridCell}" Header="Дата поставки" 
+	                   CellTemplate="{StaticResource DateTemplate1}" 
+                          CellEditingTemplate="{StaticResource EditingDateTemplate1}"/>
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Количество" 
+	                    Binding="{Binding col_aEquipment, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Сумма поставки" 
+	                    Binding="{Binding price_aEquipment, StringFormat={}{0:F2}, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                            <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о поставке"/>
+                                            <!---->
+                                            <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="personEquipmentBuysLabel" FontWeight="DemiBold" FontSize="22px"/>                                            <LineBreak/>
+                                                        <Label x:Name="dateEquipmentBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label x:Name="colEquipmentBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label FontSize="22px" x:Name="equipmentEquipmentBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label FontSize="22px" x:Name="priceEquipmentBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label x:Name="pricePerEquipmentBuysLabel"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать оборудование в Word" x:Name="uploadEquipmentBuys" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                            <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать информацию в буфер" x:Name="copyEquipmentBuys" Height="50" Width="285"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                            </mah:MetroAnimatedTabControl>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material 398}" x:Name="menuParts" Label="Запчасти">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <mah:MetroAnimatedTabControl x:Name="tabControlParts" HorizontalAlignment="Left"  VerticalAlignment="Top">
+                                <TabItem Header="Склад">
+                                    <Grid x:Name="gridSkladParts" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="700px"/>
+                                            <ColumnDefinition Width="500px"/>
+                                        </Grid.ColumnDefinitions>
+                                            <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                                <ToolBar>
+                                                    <Button Click="AddParts_Click" ToolTip="добавить оборудование">
+                                                        <Image x:Name="imagePartsAdd" Width="50" />
+                                                    </Button>
+                                                <Button Click="EditParts_Click" ToolTip="редактировать оборудование">
+                                                    <Image x:Name="imagePartsEdit" Width="50" />
+                                                </Button>
+                                                <Button Click="DeleteParts_Click" ToolTip="удалить оборудование">
+                                                        <Image x:Name="imagePartsDelete" Width="50"/>
+                                                    </Button>
+                                                <Button Click="DownloadParts_Click" ToolTip="выгрузить таблицу оборудований в Excel">
+                                                    <Image x:Name="imagePartsDownload" Width="50"/>
+                                                </Button>
+                                            </ToolBar>
+                                            </ToolBarTray>
+                                            <DataGrid Margin="30px" Name="dataGridParts"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="350"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        MaxWidth="650px"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        CanUserDeleteRows="False" Background="{x:Null}" 
+                                        SelectionChanged="dataGridParts_SelectionChanged">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  CellStyle="{StaticResource DataGridCell}" Header="Название" 
+	                    Binding="{Binding name_part, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Количество на складе" 
+	                    Binding="{Binding col_part, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Цена" 
+	                    Binding="{Binding price_part, StringFormat={}{0:F2}, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                            <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
+                                                <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Поиск"/>
+                                                <ComboBox Name="searchPartsChoise"  Height="26" Width="205" SelectionChanged="searchPartsChoise_SelectionChanged">
+                                                    <ComboBoxItem Content="По артикулу"/>
+                                                    <ComboBoxItem Content="По названию"/>
+                                                    <ComboBoxItem Content="По производителю"/>
+                                                    <ComboBoxItem Content="По категории"/>
+                                                    <ComboBoxItem Content="По оборудованию"/>
+                                                    <ComboBoxItem Content="По количеству на складе"/>
+                                                    <ComboBoxItem Content="По цене"/>
+                                                </ComboBox>
+                                                <WrapPanel Margin="147,15,0,0">
+                                                <Grid>
+                                                    <ComboBox 
+                                                Name="searchPartsFabricator"
+                                                DisplayMemberPath="name_fabricator"
+                                                SelectedValuePath="id_fabricator"
+                                                Width="205"
+                                                Visibility="Hidden"
+                                                Height="26" 
+                                                SelectionChanged="searchPartsFabricator_SelectionChanged"/>
+                                                    <ComboBox 
+                                                Name="searchPartsCategories"
+                                                DisplayMemberPath="name_category"
+                                                SelectedValuePath="id_category"
+                                                Width="205"
+                                                Visibility="Hidden"
+                                                Height="26" 
+                                                SelectionChanged="searchPartsCategories_SelectionChanged"/>
+                                                    <ComboBox 
+                                                Name="searchPartsEquipment"
+                                                DisplayMemberPath="name_equipment"
+                                                SelectedValuePath="id_equipment"
+                                                Width="205"
+                                                Visibility="Hidden"
+                                                Height="26" 
+                                                SelectionChanged="searchPartsEquipment_SelectionChanged"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchPartsCode" Visibility="Hidden" Width="205" Height="26" TextChanged="searchPartsCode_TextChanged"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchPartsName" Visibility="Hidden" Width="205" Height="26" TextChanged="searchParts_TextChanged"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchPartsPrice" Visibility="Hidden" Width="205" Height="26" TextChanged="searchPartsPrice_TextChanged" PreviewTextInput="searchEquipmentPrice_PreviewTextInput"/>
+                                                    <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="searchPartsCol" Visibility="Hidden" Width="205" Height="26" TextChanged="searchPartsCol_TextChanged" PreviewTextInput="searchEquipmentCol_PreviewTextInput"/>
+                                                </Grid>
+                                            </WrapPanel>
+                                                <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о запчасти"/>
+                                                <!---->
+                                            <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="namePartsLabel" FontWeight="DemiBold" FontSize="25px"/>
+                                            <LineBreak/>
+                                            <Label x:Name="codePartsLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="equipmentPartsLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="fabricatorPartsLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="categoriesPartsLabel"/>
+                                            <LineBreak/>
+                                            <StackPanel>
+                                                        <Label x:Name="descriptionParts" Visibility="Hidden" Content="Описание: "/>
+                                            <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="descriptionPartsLabel"/>
+                                            </StackPanel>
+                                                <LineBreak/>
+                                            <Label FontSize="22px" x:Name="pricePartsLabel"/>
+                                            <LineBreak/>
+                                            <Label FontSize="22px" x:Name="colPartsLabel"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать оборудование в Word" x:Name="uploadParts" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                            <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать информацию в буфер" x:Name="copyParts" Height="50" Width="285"/>
+
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Продажи">
+                                    <Grid x:Name="gridSalesParts" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="800px"/>
+                                            <ColumnDefinition Width="500px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                            <ToolBar>
+                                                <Button Click="PartsSalesAdd_Click" ToolTip="добавить продажу">
+                                                    <Image x:Name="imagePartsSalesAdd" Width="50" />
+                                                </Button>
+                                                <Button Click="PartsSalesDelete_Click" ToolTip="удалить продажу">
+                                                    <Image x:Name="imagePartsSalesDelete" Width="50"/>
+                                                </Button>
+                                                <Button ToolTip="выгрузить таблицу продаж в Excel">
+                                                    <Image x:Name="imagePartsSalesDownload" Width="50"/>
+                                                </Button>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <DataGrid Margin="30px" Name="dataGridPartsSales"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="400px"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        MaxWidth="900px"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        CanUserDeleteRows="False" SelectionChanged="dataGridPartsSales_SelectionChanged" Background="{x:Null}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  CellStyle="{StaticResource DataGridCell}" Header="Номер" 
+	                    Binding="{Binding id_aParts, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                <DataGridComboBoxColumn x:Name="PartsSalesEq" CellStyle="{StaticResource DataGridCell}"  Header="Запчасть"
+                        DisplayMemberPath="code_part"
+                        SelectedValueBinding="{Binding Path=part_aParts, Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="id_part" />
+
+                                                <DataGridTemplateColumn CellStyle="{StaticResource DataGridCell}" Header="Дата продажи" 
+	                   CellTemplate="{StaticResource DateTemplate3}" 
+                          CellEditingTemplate="{StaticResource EditingDateTemplate3}"/>
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Количество" 
+	                    Binding="{Binding col_aParts, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Сумма продажи" 
+	                    Binding="{Binding price_aParts, StringFormat={}{0:F2}, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                            <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о продаже"/>
+                                            <!---->
+                                            <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                            <Label x:Name="personPartsSalesLabel" FontWeight="DemiBold" FontSize="22px"/>
+                                            <LineBreak/>
+                                            <Label x:Name="datePartsSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="colPartsSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label FontSize="22px" x:Name="partPartsSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label FontSize="22px" x:Name="pricePartsSalesLabel"/>
+                                            <LineBreak/>
+                                            <Label x:Name="pricePerPartsSalesLabel"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать оборудование в Word" x:Name="uploadPartsSales" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                            <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать информацию в буфер" x:Name="copyPartsSales" Height="50" Width="285"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Поставки">
+                                    <Grid x:Name="gridBuysParts" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="800px"/>
+                                            <ColumnDefinition Width="500px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                            <ToolBar>
+                                                <Button Click="PartsBuysAdd_Click" ToolTip="добавить поставку">
+                                                    <Image x:Name="imagePartsBuysAdd" Width="50" />
+                                                </Button>
+                                                <Button Click="PartsBuysDelete_Click"  ToolTip="удалить поставку">
+                                                    <Image x:Name="imagePartsBuysDelete" Width="50"/>
+                                                </Button>
+                                                <Button Click="PartsBuysDownload_Click" ToolTip="выгрузить таблицу поставок в Excel">
+                                                    <Image x:Name="imagePartsBuysDownload" Width="50"/>
+                                                </Button>
+                                            </ToolBar>
+                                        </ToolBarTray>
+                                        <DataGrid Margin="30px" Name="dataGridPartsBuys"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="450"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        MaxWidth="900px"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        CanUserDeleteRows="False" SelectionChanged="dataGridPartsBuys_SelectionChanged" Background="{x:Null}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  CellStyle="{StaticResource DataGridCell}" Header="Номер" 
+	                    Binding="{Binding id_aParts, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                <DataGridComboBoxColumn x:Name="PartsBuysEq" CellStyle="{StaticResource DataGridCell}"  Header="Оборудование"
+                        DisplayMemberPath="code_part"
+                        SelectedValueBinding="{Binding Path=part_aParts, Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="id_part" />
+
+                                                <DataGridTemplateColumn CellStyle="{StaticResource DataGridCell}" Header="Дата поставки" 
+	                   CellTemplate="{StaticResource DateTemplate3}" 
+                          CellEditingTemplate="{StaticResource EditingDateTemplate3}"/>
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Количество" 
+	                    Binding="{Binding col_aParts, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <DataGridTextColumn CellStyle="{StaticResource DataGridCell}" Header="Сумма поставки" 
+	                    Binding="{Binding price_aParts, StringFormat={}{0:F2}, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                            <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о поставке"/>
+                                            <!---->
+                                            <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="personPartsBuysLabel" FontWeight="DemiBold" FontSize="22px"/>
+                                                        <LineBreak/>
+                                                        <Label x:Name="datePartsBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label x:Name="colPartsBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label FontSize="22px" x:Name="partPartsBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label FontSize="22px" x:Name="pricePartsBuysLabel"/>
+                                                        <LineBreak/>
+                                                        <Label x:Name="pricePerPartsBuysLabel"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать оборудование в Word" x:Name="uploadPartsBuys" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                            <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать информацию в буфер" x:Name="copyPartsBuys" Height="50" Width="285"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                            </mah:MetroAnimatedTabControl>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material 24}" x:Name="menuKlients" Label="Производители">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="500px"/>
+                                    <ColumnDefinition Width="600px"/>
+                                </Grid.ColumnDefinitions>
+                                <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                    <ToolBar>
+                                        <Button Click="AddFabricator_Click" ToolTip="добавить товар">
+                                            <Image x:Name="imageFabricatorAdd" Width="50" />
+                                        </Button>
+                                        <Button Click="EditFabricator_Click" ToolTip="добавить товар">
+                                            <Image x:Name="imageFabricatorEdit" Width="50" />
+                                        </Button>
+                                        <Button Click="DeleteFabricator_Click" ToolTip="удалить строку таблицы">
+                                            <Image x:Name="imageFabricatorDelete" Width="50"/>
+                                        </Button>
+                                        <Button Click="DownloadFabricator_Click" ToolTip="выгрузить таблицу товаров в Excel">
+                                            <Image x:Name="imageFabricatorDownload" Width="50"/>
+                                        </Button>
+                                    </ToolBar>
+                                </ToolBarTray>
+                                <DataGrid Margin="30px" Name="dataGridFabricators"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="450"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        SelectionChanged="dataGridFabricators_SelectionChanged"
+                                        CanUserDeleteRows="False" Background="{x:Null}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn MinWidth="200" CellStyle="{StaticResource DataGridCell}" Header="Юр. название" 
+	                    Binding="{Binding name_fabricator, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+
+                                        <DataGridTextColumn MinWidth="200" CellStyle="{StaticResource DataGridCell}" Header="Телефон" 
+	                    Binding="{Binding tel_fabricator, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                    <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о производителе"/>
+                                    <!---->
+                                            <ScrollViewer MaxHeight="270" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="nameFabricatorLabel" FontWeight="DemiBold" FontSize="25px"/>
+                                                        <LineBreak/>
+                                                        <Label x:Name="innFabricatorLabel" FontWeight="DemiBold"/>
+                                                        <LineBreak/>
+                                                        <StackPanel>
+                                                        <Label x:Name="descriptionFabricator" Visibility="Hidden" Content="Описание: "/>
+                                                        <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="descriptionFabricatorLabel"/>
+                                                        </StackPanel>
+                                                        <LineBreak/>
+                                                        <Label FontSize="22px" x:Name="contactFabricatorLabel" />
+                                                        <LineBreak/>
+                                                        <Label FontSize="22px" x:Name="telFabricatorLabel"/>
+                                                        <LineBreak/>
+                                                            <StackPanel>
+                                                        <Label x:Name="equipmentFabricator" Visibility="Hidden" Content="Оборудование на складе: "/>
+                                                        <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="equipmentFabricatorLabel"/>
+                                                     </StackPanel>
+                                                            </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <Button Click="uploadEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать данные в Word" x:Name="uploadFabricator" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                            <Button Click="copyEquipment_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать данные в буфер" x:Name="copyFabricator" Height="50" Width="285"/>
+
+                                        </StackPanel>
+                                    </Grid>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material 280}" x:Name="menuCategories" Label="Категории">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="500px"/>
+                                    <ColumnDefinition Width="600px"/>
+                                </Grid.ColumnDefinitions>
+                                <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                    <ToolBar>
+                                        <Button Click="AddCategory_Click" ToolTip="добавить категорию">
+                                            <Image x:Name="imageCategoryAdd" Width="50" />
+                                        </Button>
+                                        <Button Click="EditCategory_Click" ToolTip="изменить категорию">
+                                            <Image x:Name="imageCategoryEdit" Width="50" />
+                                        </Button>
+                                        <Button Click="DeleteCategory_Click" ToolTip="удалить категорию">
+                                            <Image x:Name="imageCategoryDelete" Width="50"/>
+                                        </Button>
+                                        <Button Click="DownloadCategory_Click" ToolTip="выгрузить таблицу категорий в Excel">
+                                            <Image x:Name="imageCategoryDownload" Width="50"/>
+                                        </Button>
+                                    </ToolBar>
+                                </ToolBarTray>
+                                <DataGrid Margin="30px" Name="dataGridCategories"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="450"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        SelectionChanged="dataGridCategories_SelectionChanged"
+                                        CanUserDeleteRows="False" Background="{x:Null}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn MinWidth="200" CellStyle="{StaticResource DataGridCell}" Header="Название" 
+	                    Binding="{Binding name_category, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                    <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о категории"/>
+                                    <!---->
+                                    <ScrollViewer MaxHeight="270" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel>
+                                            <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="nameCategoryLabel" FontWeight="DemiBold" FontSize="25px"/>
+                                                        <LineBreak/>
+                                                        <StackPanel>
+                                                        <Label x:Name="descriptionCategory" Visibility="Hidden" Content="Описание: "/>
+                                                        <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="descriptionCategoryLabel"/>
+                                                     </StackPanel>
+                                                        </TextBlock>
+                                        </StackPanel>
+                                    </ScrollViewer>
+
+                                    <Button Click="uploadCategory_Click" Style="{StaticResource AccentedSquareButtonStyle}" IsEnabled="False" Content="скачать данные в Word" x:Name="uploadCategory" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+                                    <Button Click="copyCategory_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать данные в буфер" x:Name="copyCategory" Height="50" Width="285"/>
+
+                                </StackPanel>
+                            </Grid>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material 91}" x:Name="menuAttributes" Label="Характеристики">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="500px"/>
+                                    <ColumnDefinition Width="600px"/>
+                                </Grid.ColumnDefinitions>
+                                <ToolBarTray Margin="30px" Background="White" Grid.Row="0" Grid.Column="0">
+                                    <ToolBar>
+                                        <Button Click="AddAttributes_Click" ToolTip="добавить характеристику">
+                                            <Image x:Name="imageAttributesAdd" Width="50" />
+                                        </Button>
+                                        <Button Click="EditAttributes_Click" ToolTip="изменить характеристику">
+                                            <Image x:Name="imageAttributesEdit" Width="50" />
+                                        </Button>
+                                        <Button Click="DeleteAttributes_Click" ToolTip="удалить характеристику">
+                                            <Image x:Name="imageAttributesDelete" Width="50"/>
+                                        </Button>
+                                        <Button Click="DownloadAttributes_Click" ToolTip="выгрузить таблицу характеристик в Excel">
+                                            <Image x:Name="imageAttributesDownload" Width="50"/>
+                                        </Button>
+                                    </ToolBar>
+                                </ToolBarTray>
+                                <DataGrid Margin="30px" Name="dataGridAttributes"  
+                                        ItemsSource="{Binding}"
+                                        Grid.Row="1" Grid.Column="0"
+                                        AutoGenerateColumns="False" 
+                                        MaxHeight="450"
+                                        HorizontalAlignment="Left"
+                                        RowBackground="White"
+                                        AlternatingRowBackground="WhiteSmoke"
+                                        BorderBrush="Gray" 
+                                        BorderThickness="2"  
+                                        IsReadOnly="True" 
+                                        RowHeight="25" 
+                                        Cursor="Hand"
+                                        VerticalAlignment="Top"
+                                        CanUserAddRows="False" 
+                                        SelectionChanged="dataGridAttributes_SelectionChanged"
+                                        CanUserDeleteRows="False" Background="{x:Null}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn MinWidth="200" CellStyle="{StaticResource DataGridCell}" Header="Название" 
+	                    Binding="{Binding name_attribute, Mode=TwoWay, 
+	                    UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                                    <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Информация о категории"/>
+                                    <!---->
+                                            <ScrollViewer MaxHeight="270" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                        <Label x:Name="nameAttributesLabel" FontWeight="DemiBold" FontSize="25px"/>
+                                                        <LineBreak/>
+                                                        <StackPanel>
+                                                        <Label x:Name="descriptionAttributes" Visibility="Hidden" Content="Описание: "/>
+                                                        <TextBlock Margin="5px, 0, 0, 0" TextWrapping="Wrap" x:Name="descriptionAttributesLabel"/>
+                                                     </StackPanel>
+                                                        </TextBlock>
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                    <Button Click="copyAttributes_Click" Style="{StaticResource SquareButtonStyle}" IsEnabled="False" HorizontalAlignment="Center" Content="скопировать данные в буфер" x:Name="copyAttributes" Height="50" Width="285"/>
+
+                                        </StackPanel>
+                                    </Grid>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material 442}" x:Name="menuGraphics" Label="Отчеты">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <mah:MetroAnimatedTabControl HorizontalAlignment="Left"  VerticalAlignment="Top">
+                                <TabItem Header="Оборудование">
+                                    <Grid>
+                                         <Grid.RowDefinitions>
+                                             <RowDefinition Height="50px"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="900px"/>
+                                            <ColumnDefinition Width="400px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <WrapPanel Margin="0,15,0,0">
+                                            <Label Content="Введите даты: " FontWeight="DemiBold"/>
+                                            <Label Content="от " HorizontalAlignment="Right"/>
+                                            <DatePicker x:Name="EquipmentDatePickerFrom" IsDropDownOpen="False" VerticalAlignment="Center" SelectedDateFormat="Short" Grid.Column="0" Grid.Row="0" Width="205px" Height="22px"/>
+                                            <Label Content=" до " HorizontalAlignment="Right"/>
+                                            <DatePicker x:Name="EquipmentDatePickerTo" Grid.Column="0" VerticalAlignment="Center" IsDropDownOpen="False" SelectedDateFormat="Short" Grid.Row="0" Width="205px" Height="22px"/>
+                                            <Button Content="применить" x:Name="submitChartEquipment" Click="submitChartEquipment_Click"
+                                                    Style="{StaticResource SquareButtonStyle}" Margin="5,0,0,0" Width="105px" Height="35px"/>
+                                        <Button Content="за все время" x:Name="allChartEquipment" Margin="5,0,0,0" Click="allChartEquipment_Click"
+                                                    Style="{StaticResource AccentedSquareButtonStyle}" Width="155px" Height="35px"/>
+                                        </WrapPanel>
+                                        <chartingToolkit:Chart BorderThickness="0" 
+                                                                Width="900px" 
+                                                                Name="chartPerEquipmentPrice" 
+                                                                Foreground="#FF444444" 
+                                                                Title="Статистика продаж и поставок" 
+                                                                VerticalAlignment="Center"
+                                                                Height="500px"
+                                                                HorizontalAlignment="Center"
+                                                                IsEnabled="True"
+                                                               Grid.Column="0" Grid.Row="1">
+                                            
+                                            <chartingToolkit:ColumnSeries Title="Продажи" 
+                                    Name="chartPerEquipmentSales" 
+                                    Width="900px"
+                                    ItemsSource="{Binding}" 
+                                    DependentValueBinding="{Binding Path=Value}" 
+                                    IndependentValueBinding="{Binding Path=Key}"
+                                    IsSelectionEnabled="True">
+                                                <chartingToolkit:ColumnSeries.DataPointStyle>
+                                                    <Style TargetType="{x:Type chartingToolkit:DataPoint}">
+                                                        <Setter Property="Background" Value="#FF444444"/>
+                                                        <Setter Property="BorderBrush" Value="#FF444444"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                    </Style>
+                                                </chartingToolkit:ColumnSeries.DataPointStyle>
+                                                <chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                                    <chartingToolkit:LinearAxis x:Name="lin1" Orientation="Y" />
+                                                </chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                            </chartingToolkit:ColumnSeries>
+                                            <chartingToolkit:ColumnSeries Title="Поставки" 
+                                    Width="900px"
+                                    Name="chartPerEquipmentPost" 
+                                    ItemsSource="{Binding}" 
+                                    DependentValueBinding="{Binding Path=Value}" 
+                                    IndependentValueBinding="{Binding Path=Key}"
+                                    IsSelectionEnabled="True">
+                                                <chartingToolkit:ColumnSeries.DataPointStyle>
+                                                    <Style TargetType="{x:Type chartingToolkit:DataPoint}">
+                                                        <Setter Property="Background" Value="Indigo"/>
+                                                        <Setter Property="BorderBrush" Value="Indigo"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                    </Style>
+                                                </chartingToolkit:ColumnSeries.DataPointStyle>
+                                                <chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                                    <chartingToolkit:LinearAxis x:Name="lin2" Orientation="Y" />
+                                                </chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                            </chartingToolkit:ColumnSeries>
+                                        </chartingToolkit:Chart>
+                                            <StackPanel MaxWidth="400px" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2">
+                                                <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Отчет"/>
+                                                <WrapPanel>
+                                                <Grid>
+                                                    <Polygon x:Name="topPolygon" HorizontalAlignment="Right" Fill="Green" Points="0, 40, 30, 0, 60, 40" />
+                                                    <Polygon x:Name="bottomPolygon" HorizontalAlignment="Right" Fill="Red" Points="0, 0, 30, 50, 60, 0" />
+                                                    <Line x:Name="centerLine" HorizontalAlignment="Center" X1="20" Y1="25" X2="40" Y2="25" Stroke="Gray" />
+                                                </Grid>
+                                                <Label x:Name="resultPostSalesLabel" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="24px" />
+                                                </WrapPanel>
+                                                <TextBlock x:Name="sumSalesLabel" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20px" />
+                                                <TextBlock x:Name="sumPostsLabel" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20px" />
+                                                
+                                                <Button Click="uploadChartEquipment_Click"  Style="{StaticResource AccentedSquareButtonStyle}" Content="скачать отчет в Excel" x:Name="uploadChartEquipment" HorizontalAlignment="Center" Height="50" Width="285" Margin="15"/>
+
+                                            </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Запчасти">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50px"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="900px"/>
+                                            <ColumnDefinition Width="400px"/>
+                                        </Grid.ColumnDefinitions>
+                                        <WrapPanel Margin="0,15,0,0">
+                                            <Label Content="Введите даты: " FontWeight="DemiBold"/>
+                                            <Label Content="от " HorizontalAlignment="Right"/>
+                                            <DatePicker x:Name="partsDatePickerFrom" IsDropDownOpen="False" SelectedDateFormat="Short"  Grid.Column="0" Grid.Row="0" Width="205px" Height="22px"/>
+                                            <Label Content=" до " HorizontalAlignment="Right"/>
+                                            <DatePicker x:Name="partsDatePickerTo" IsDropDownOpen="False" SelectedDateFormat="Short" Grid.Column="0" Grid.Row="0" Width="205px" Height="22px"/>
+                                            <Button Content="применить" x:Name="submitChartParts" Click="submitChartParts_Click"
+                                                    Style="{StaticResource SquareButtonStyle}" Margin="5,0,0,0" Width="105px" Height="35px"/>
+                                            <Button Content="за все время" x:Name="allChartParts" Margin="5,0,0,0" Click="allChartParts_Click"
+                                                    Style="{StaticResource AccentedSquareButtonStyle}" Width="155px" Height="35px"/>
+                                        </WrapPanel>
+                                        <chartingToolkit:Chart BorderThickness="0" 
+                                                                Width="900px" 
+                                                                Name="chartPerPartsPrice" 
+                                                                Foreground="#FF444444" 
+                                                                Title="Статистика продаж и поставок" 
+                                                                VerticalAlignment="Center"
+                                                                Height="500px"
+                                                                HorizontalAlignment="Center"
+                                                                IsEnabled="True"
+                                                               Grid.Column="0" Grid.Row="1">
+
+                                            <chartingToolkit:ColumnSeries Title="Продажи" 
+                                    Name="chartPerPartsSales" 
+                                    Width="900px"
+                                    ItemsSource="{Binding}" 
+                                    DependentValueBinding="{Binding Path=Value}" 
+                                    IndependentValueBinding="{Binding Path=Key}"
+                                    IsSelectionEnabled="True">
+                                                <chartingToolkit:ColumnSeries.DataPointStyle>
+                                                    <Style TargetType="{x:Type chartingToolkit:DataPoint}">
+                                                        <Setter Property="Background" Value="#FF444444"/>
+                                                        <Setter Property="BorderBrush" Value="#FF444444"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                    </Style>
+                                                </chartingToolkit:ColumnSeries.DataPointStyle>
+                                                <chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                                    <chartingToolkit:LinearAxis x:Name="lin3" Orientation="Y" />
+                                                </chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                            </chartingToolkit:ColumnSeries>
+                                            <chartingToolkit:ColumnSeries Title="Поставки" 
+                                    Width="900px"
+                                    Name="chartPerPartsPost" 
+                                    ItemsSource="{Binding}" 
+                                    DependentValueBinding="{Binding Path=Value}" 
+                                    IndependentValueBinding="{Binding Path=Key}"
+                                    IsSelectionEnabled="True">
+                                                <chartingToolkit:ColumnSeries.DataPointStyle>
+                                                    <Style TargetType="{x:Type chartingToolkit:DataPoint}">
+                                                        <Setter Property="Background" Value="Indigo"/>
+                                                        <Setter Property="BorderBrush" Value="Indigo"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                    </Style>
+                                                </chartingToolkit:ColumnSeries.DataPointStyle>
+                                                <chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                                    <chartingToolkit:LinearAxis x:Name="lin4" Orientation="Y" />
+                                                </chartingToolkit:ColumnSeries.DependentRangeAxis>
+                                            </chartingToolkit:ColumnSeries>
+                                        </chartingToolkit:Chart>
+                                        <StackPanel MaxWidth="400px" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2">
+                                            <Label FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="30px" Content="Отчет"/>
+                                            <WrapPanel>
+                                                <Grid>
+                                                    <Polygon x:Name="topPartsPolygon" HorizontalAlignment="Right" Fill="Green" Points="0, 40, 30, 0, 60, 40" />
+                                                    <Polygon x:Name="bottomPartsPolygon" HorizontalAlignment="Right" Fill="Red" Points="0, 0, 30, 50, 60, 0" />
+                                                    <Line x:Name="centerPartsLine" HorizontalAlignment="Center" X1="20" Y1="25" X2="40" Y2="25" Stroke="Gray" />
+                                                </Grid>
+                                                <Label x:Name="resultPartsPostSalesLabel" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="24px" />
+                                            </WrapPanel>
+                                            <TextBlock x:Name="sumPartsSalesLabel" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20px" />
+                                            <TextBlock x:Name="sumPartsPostsLabel" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20px" />
+
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Производители">
+                                    <Grid>
+                                        <chartingToolkit:Chart BorderThickness="0" 
+                                                                Width="900px" 
+                                                                Name="chartPerFabricatorEquipment" 
+                                                                Foreground="#FF444444" 
+                                                                Title="Производители на складе" 
+                                                                VerticalAlignment="Center"
+                                                                Height="500px"
+                                                                HorizontalAlignment="Center"
+                                                                IsEnabled="True">
+                                            <chartingToolkit:PieSeries 
+                                    Width="900px"
+                                    HorizontalAlignment="Center"
+                                    
+                                    ItemsSource="{Binding}" 
+                                    DependentValueBinding="{Binding Path=Value}" 
+                                    IndependentValueBinding="{Binding Path=Key}"
+                                    IsSelectionEnabled="True">
+                                            </chartingToolkit:PieSeries>
+                                        </chartingToolkit:Chart>
+                                        
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Категории">
+                                    <Grid>
+                                        <chartingToolkit:Chart BorderThickness="0" 
+                                                                Width="900px" 
+                                                                Name="chartPerCategoryEquipment" 
+                                                                Foreground="#FF444444" 
+                                                                Title="Категории на складе" 
+                                                                VerticalAlignment="Center"
+                                                                Height="500px"
+                                                                HorizontalAlignment="Center"
+                                                                IsEnabled="True">
+                                            <chartingToolkit:PieSeries 
+                                    Width="900px"
+                                    HorizontalAlignment="Center"
+                                    ItemsSource="{Binding}" 
+                                    DependentValueBinding="{Binding Path=Value}" 
+                                    IndependentValueBinding="{Binding Path=Key}"
+                                    IsSelectionEnabled="True">
+                                            </chartingToolkit:PieSeries>
+                                        </chartingToolkit:Chart>
+                                    </Grid>
+                                </TabItem>
+                            </mah:MetroAnimatedTabControl>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    
+                    <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Settings}"  x:Name="menuSettings" Label="Настройки">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <Grid>
+                                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="150px" Height="150px" Click="ChangeAppStyleButtonClick">
+                                        <Image x:Name="imageAppSlyle" Width="64" />
+                                    </Button>
+                                    <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="150px" Height="150px" Click="ChangeFontStyleButtonClick">
+                                        <Image x:Name="imageChangeFont" Width="64" />
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                </mah:HamburgerMenuItemCollection>
+            </mah:HamburgerMenu.ItemsSource>
+
+            <!--  Options  -->
+                                    <mah:HamburgerMenu.OptionsItemsSource>
+                                        <mah:HamburgerMenuItemCollection>
+                                            <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Information}" x:Name="menuAbout" Label="О программе">
+                                                <mah:HamburgerMenuIconItem.Tag>
+                                                    <StackPanel VerticalAlignment="Center">
+                                                            <Image Source="Images/me.jpg" Width="150" Margin="50"/>
+                                                            <TextBlock Text="Данная программа разработана студентом группы 428/2 Университетского Политехничесекого коллежда. Целью разработки является создание ПО для складского учета небольшой компании по перепродаже компрессорного оборудования. Ерольский Богдан" FontSize="20px" MaxWidth="800" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </mah:HamburgerMenuIconItem.Tag>
+                                            </mah:HamburgerMenuIconItem>
+                                        </mah:HamburgerMenuItemCollection>
+                                    </mah:HamburgerMenu.OptionsItemsSource>
+
+        </mah:HamburgerMenu>
+
+    </Grid>
+</mah:MetroWindow>

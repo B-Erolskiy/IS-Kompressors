@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IS_Kompressors.AccentStyleWindow" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAACAAAAAIAAgAAAIAAiAAAAAAgAAABAA=</HashCode>
+      <FileName>AccentStyleWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IS_Kompressors.AddEquipment" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAABAAEACAQAQAAAAgCAAEAQAAAABIAAEAAAA=</HashCode>
+      <FileName>AddEquipment.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IS_Kompressors.App" Collapsed="true">
+    <Position X="7.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Authorize" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAABJQQAQAAAAEAAAAAAUABAAgAAA=</HashCode>
+      <FileName>Authorize.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IS_Kompressors.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IQMncAOgXEI+EiBXYRQQAQDgIj5oGaN8XLhZQicjKJE=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IS_Kompressors.ThemeManagerHelper">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>ThemeManagerHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Properties.Resources">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Properties.Settings">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAEAAkAAAAAAIgACIAABAAAAAAAAgAAAEAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Entities">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACQAAAAAAABAAAABQEAAAEACAAAAAAAEAAgA=</HashCode>
+      <FileName>Model1.Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Account">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAEAA=</HashCode>
+      <FileName>Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Actions_Equipment">
+    <Position X="5.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAIACAAAAgAUAAAAAgAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Actions_Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Actions_Parts">
+    <Position X="7.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQAAKAAAAAAAAACAAAAAAAAAAAAAAAAAAQBACAA=</HashCode>
+      <FileName>Actions_Parts.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Equipment">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAiYAAAACQABAAAAJAgAAAECAAAAABAAAAAAA=</HashCode>
+      <FileName>Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Fabricator">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAEAAAAAAAAAAAAAAEIAAAAKAAAAgAAAgA=</HashCode>
+      <FileName>Fabricator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Part">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgCAAAAAAAAAAAACAAQAAAwAAAABAAAAAAEAABA=</HashCode>
+      <FileName>Part.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IS_Kompressors.Сategories">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAAgA=</HashCode>
+      <FileName>Сategories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

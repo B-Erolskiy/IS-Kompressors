@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="login" />
+          </Key>
+          <Property Name="login" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="120" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Actions_Equipment">
+          <Key>
+            <PropertyRef Name="id_aEquipment" />
+          </Key>
+          <Property Name="id_aEquipment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_aEquipment" Type="bit" Nullable="false" />
+          <Property Name="equipment_aEquipment" Type="int" />
+          <Property Name="person_aEquipment" Type="nvarchar" MaxLength="120" />
+          <Property Name="date_aEquipment" Type="date" Nullable="false" />
+          <Property Name="col_aEquipment" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_aEquipment" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Actions_Parts">
+          <Key>
+            <PropertyRef Name="id_aParts" />
+          </Key>
+          <Property Name="id_aParts" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_aParts" Type="bit" Nullable="false" />
+          <Property Name="part_aParts" Type="int" />
+          <Property Name="person_aParts" Type="nvarchar" MaxLength="120" />
+          <Property Name="date_aParts" Type="date" Nullable="false" />
+          <Property Name="col_aParts" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_aParts" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attributes">
+          <Key>
+            <PropertyRef Name="id_attribute" />
+          </Key>
+          <Property Name="id_attribute" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_attribute" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="description_attribute" Type="text" />
+        </EntityType>
+        <EntityType Name="Attributes_Values">
+          <Key>
+            <PropertyRef Name="id_aValues" />
+          </Key>
+          <Property Name="id_aValues" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="attribute_aValues" Type="int" />
+          <Property Name="equipment_aValues" Type="int" />
+          <Property Name="value_aValues" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="id_equipment" />
+          </Key>
+          <Property Name="id_equipment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code_equipment" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="name_equipment" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="description_equipment" Type="text" />
+          <Property Name="fabricator_equipment" Type="int" />
+          <Property Name="category_equipment" Type="int" />
+          <Property Name="col_equipment" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_equipment" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fabricators">
+          <Key>
+            <PropertyRef Name="id_fabricator" />
+          </Key>
+          <Property Name="id_fabricator" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_fabricator" Type="nvarchar" MaxLength="60" />
+          <Property Name="tel_fabricator" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="inn_fabricator" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="description_fabricator" Type="text" />
+          <Property Name="doing_fabricator" Type="nvarchar" MaxLength="150" />
+          <Property Name="contactName_fabricator" Type="nvarchar" MaxLength="120" />
+        </EntityType>
+        <EntityType Name="Parts">
+          <Key>
+            <PropertyRef Name="id_part" />
+          </Key>
+          <Property Name="id_part" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="equipment_part" Type="int" />
+          <Property Name="code_part" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="name_part" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="description_part" Type="text" />
+          <Property Name="col_part" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_part" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сategories">
+          <Key>
+            <PropertyRef Name="id_category" />
+          </Key>
+          <Property Name="id_category" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_category" Type="nvarchar" MaxLength="60" />
+          <Property Name="description_category" Type="text" />
+        </EntityType>
+        <Association Name="FK_aEquipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Actions_Equipment" Type="Self.Actions_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="id_equipment" />
+            </Principal>
+            <Dependent Role="Actions_Equipment">
+              <PropertyRef Name="equipment_aEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_aParts">
+          <End Role="Parts" Type="Self.Parts" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Actions_Parts" Type="Self.Actions_Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts">
+              <PropertyRef Name="id_part" />
+            </Principal>
+            <Dependent Role="Actions_Parts">
+              <PropertyRef Name="part_aParts" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attribute_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Attributes_Values" Type="Self.Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="id_equipment" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="equipment_aValues" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attribute_Name">
+          <End Role="Attributes" Type="Self.Attributes" Multiplicity="0..1" />
+          <End Role="Attributes_Values" Type="Self.Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="id_attribute" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="attribute_aValues" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Category">
+          <End Role="Сategories" Type="Self.Сategories" Multiplicity="0..1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сategories">
+              <PropertyRef Name="id_category" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="category_equipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_equipment_Parts">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Parts" Type="Self.Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="id_equipment" />
+            </Principal>
+            <Dependent Role="Parts">
+              <PropertyRef Name="equipment_part" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fabricator">
+          <End Role="Fabricators" Type="Self.Fabricators" Multiplicity="0..1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fabricators">
+              <PropertyRef Name="id_fabricator" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="fabricator_equipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Actions_Equipment" EntityType="Self.Actions_Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Actions_Parts" EntityType="Self.Actions_Parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attributes_Values" EntityType="Self.Attributes_Values" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fabricators" EntityType="Self.Fabricators" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parts" EntityType="Self.Parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сategories" EntityType="Self.Сategories" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_aEquipment" Association="Self.FK_aEquipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Actions_Equipment" EntitySet="Actions_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_aParts" Association="Self.FK_aParts">
+            <End Role="Parts" EntitySet="Parts" />
+            <End Role="Actions_Parts" EntitySet="Actions_Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attribute_Equipment" Association="Self.FK_attribute_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attribute_Name" Association="Self.FK_attribute_Name">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category" Association="Self.FK_Category">
+            <End Role="Сategories" EntitySet="Сategories" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_equipment_Parts" Association="Self.FK_equipment_Parts">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Parts" EntitySet="Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fabricator" Association="Self.FK_Fabricator">
+            <End Role="Fabricators" EntitySet="Fabricators" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="login" />
+          </Key>
+          <Property Name="login" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FIO" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Actions_Equipment">
+          <Key>
+            <PropertyRef Name="id_aEquipment" />
+          </Key>
+          <Property Name="id_aEquipment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_aEquipment" Type="Boolean" Nullable="false" />
+          <Property Name="equipment_aEquipment" Type="Int32" />
+          <Property Name="person_aEquipment" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="date_aEquipment" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="col_aEquipment" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_aEquipment" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_aEquipment" FromRole="Actions_Equipment" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="Actions_Parts">
+          <Key>
+            <PropertyRef Name="id_aParts" />
+          </Key>
+          <Property Name="id_aParts" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_aParts" Type="Boolean" Nullable="false" />
+          <Property Name="part_aParts" Type="Int32" />
+          <Property Name="person_aParts" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="date_aParts" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="col_aParts" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_aParts" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Part" Relationship="Self.FK_aParts" FromRole="Actions_Parts" ToRole="Parts" />
+        </EntityType>
+        <EntityType Name="Attribute">
+          <Key>
+            <PropertyRef Name="id_attribute" />
+          </Key>
+          <Property Name="id_attribute" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_attribute" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description_attribute" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Attributes_Values" Relationship="Self.FK_attribute_Name" FromRole="Attributes" ToRole="Attributes_Values" />
+        </EntityType>
+        <EntityType Name="Attributes_Values">
+          <Key>
+            <PropertyRef Name="id_aValues" />
+          </Key>
+          <Property Name="id_aValues" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="attribute_aValues" Type="Int32" />
+          <Property Name="equipment_aValues" Type="Int32" />
+          <Property Name="value_aValues" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Attribute" Relationship="Self.FK_attribute_Name" FromRole="Attributes_Values" ToRole="Attributes" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_attribute_Equipment" FromRole="Attributes_Values" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="id_equipment" />
+          </Key>
+          <Property Name="id_equipment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code_equipment" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name_equipment" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description_equipment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fabricator_equipment" Type="Int32" />
+          <Property Name="category_equipment" Type="Int32" />
+          <Property Name="col_equipment" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_equipment" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Actions_Equipment" Relationship="Self.FK_aEquipment" FromRole="Equipment" ToRole="Actions_Equipment" />
+          <NavigationProperty Name="Attributes_Values" Relationship="Self.FK_attribute_Equipment" FromRole="Equipment" ToRole="Attributes_Values" />
+          <NavigationProperty Name="Сategories" Relationship="Self.FK_Category" FromRole="Equipment" ToRole="Сategories" />
+          <NavigationProperty Name="Parts" Relationship="Self.FK_equipment_Parts" FromRole="Equipment" ToRole="Parts" />
+          <NavigationProperty Name="Fabricator" Relationship="Self.FK_Fabricator" FromRole="Equipment" ToRole="Fabricators" />
+        </EntityType>
+        <EntityType Name="Fabricator">
+          <Key>
+            <PropertyRef Name="id_fabricator" />
+          </Key>
+          <Property Name="id_fabricator" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_fabricator" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="tel_fabricator" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="inn_fabricator" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="description_fabricator" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="doing_fabricator" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="contactName_fabricator" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipments" Relationship="Self.FK_Fabricator" FromRole="Fabricators" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="id_part" />
+          </Key>
+          <Property Name="id_part" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="equipment_part" Type="Int32" />
+          <Property Name="code_part" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name_part" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description_part" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="col_part" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_part" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Actions_Parts" Relationship="Self.FK_aParts" FromRole="Parts" ToRole="Actions_Parts" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_equipment_Parts" FromRole="Parts" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="Сategories">
+          <Key>
+            <PropertyRef Name="id_category" />
+          </Key>
+          <Property Name="id_category" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_category" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="description_category" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Equipments" Relationship="Self.FK_Category" FromRole="Сategories" ToRole="Equipment" />
+        </EntityType>
+        <Association Name="FK_aEquipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Actions_Equipment" Type="Self.Actions_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="id_equipment" />
+            </Principal>
+            <Dependent Role="Actions_Equipment">
+              <PropertyRef Name="equipment_aEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_aParts">
+          <End Role="Parts" Type="Self.Part" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Actions_Parts" Type="Self.Actions_Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts">
+              <PropertyRef Name="id_part" />
+            </Principal>
+            <Dependent Role="Actions_Parts">
+              <PropertyRef Name="part_aParts" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attribute_Name">
+          <End Role="Attributes" Type="Self.Attribute" Multiplicity="0..1" />
+          <End Role="Attributes_Values" Type="Self.Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="id_attribute" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="attribute_aValues" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attribute_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Attributes_Values" Type="Self.Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="id_equipment" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="equipment_aValues" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Category">
+          <End Role="Сategories" Type="Self.Сategories" Multiplicity="0..1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сategories">
+              <PropertyRef Name="id_category" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="category_equipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_equipment_Parts">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Parts" Type="Self.Part" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="id_equipment" />
+            </Principal>
+            <Dependent Role="Parts">
+              <PropertyRef Name="equipment_part" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fabricator">
+          <End Role="Fabricators" Type="Self.Fabricator" Multiplicity="0..1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fabricators">
+              <PropertyRef Name="id_fabricator" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="fabricator_equipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Actions_Equipment" EntityType="Self.Actions_Equipment" />
+          <EntitySet Name="Actions_Parts" EntityType="Self.Actions_Parts" />
+          <EntitySet Name="Attributes" EntityType="Self.Attribute" />
+          <EntitySet Name="Attributes_Values" EntityType="Self.Attributes_Values" />
+          <EntitySet Name="Equipments" EntityType="Self.Equipment" />
+          <EntitySet Name="Fabricators" EntityType="Self.Fabricator" />
+          <EntitySet Name="Parts" EntityType="Self.Part" />
+          <EntitySet Name="Сategories" EntityType="Self.Сategories" />
+          <AssociationSet Name="FK_aEquipment" Association="Self.FK_aEquipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Actions_Equipment" EntitySet="Actions_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_aParts" Association="Self.FK_aParts">
+            <End Role="Parts" EntitySet="Parts" />
+            <End Role="Actions_Parts" EntitySet="Actions_Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attribute_Name" Association="Self.FK_attribute_Name">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attribute_Equipment" Association="Self.FK_attribute_Equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category" Association="Self.FK_Category">
+            <End Role="Сategories" EntitySet="Сategories" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_equipment_Parts" Association="Self.FK_equipment_Parts">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Parts" EntitySet="Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fabricator" Association="Self.FK_Fabricator">
+            <End Role="Fabricators" EntitySet="Fabricators" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Model.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Actions_Equipment">
+            <EntityTypeMapping TypeName="Model.Actions_Equipment">
+              <MappingFragment StoreEntitySet="Actions_Equipment">
+                <ScalarProperty Name="id_aEquipment" ColumnName="id_aEquipment" />
+                <ScalarProperty Name="type_aEquipment" ColumnName="type_aEquipment" />
+                <ScalarProperty Name="equipment_aEquipment" ColumnName="equipment_aEquipment" />
+                <ScalarProperty Name="person_aEquipment" ColumnName="person_aEquipment" />
+                <ScalarProperty Name="date_aEquipment" ColumnName="date_aEquipment" />
+                <ScalarProperty Name="col_aEquipment" ColumnName="col_aEquipment" />
+                <ScalarProperty Name="price_aEquipment" ColumnName="price_aEquipment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Actions_Parts">
+            <EntityTypeMapping TypeName="Model.Actions_Parts">
+              <MappingFragment StoreEntitySet="Actions_Parts">
+                <ScalarProperty Name="id_aParts" ColumnName="id_aParts" />
+                <ScalarProperty Name="type_aParts" ColumnName="type_aParts" />
+                <ScalarProperty Name="part_aParts" ColumnName="part_aParts" />
+                <ScalarProperty Name="person_aParts" ColumnName="person_aParts" />
+                <ScalarProperty Name="date_aParts" ColumnName="date_aParts" />
+                <ScalarProperty Name="col_aParts" ColumnName="col_aParts" />
+                <ScalarProperty Name="price_aParts" ColumnName="price_aParts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attributes">
+            <EntityTypeMapping TypeName="Model.Attribute">
+              <MappingFragment StoreEntitySet="Attributes">
+                <ScalarProperty Name="id_attribute" ColumnName="id_attribute" />
+                <ScalarProperty Name="name_attribute" ColumnName="name_attribute" />
+                <ScalarProperty Name="description_attribute" ColumnName="description_attribute" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attributes_Values">
+            <EntityTypeMapping TypeName="Model.Attributes_Values">
+              <MappingFragment StoreEntitySet="Attributes_Values">
+                <ScalarProperty Name="id_aValues" ColumnName="id_aValues" />
+                <ScalarProperty Name="attribute_aValues" ColumnName="attribute_aValues" />
+                <ScalarProperty Name="equipment_aValues" ColumnName="equipment_aValues" />
+                <ScalarProperty Name="value_aValues" ColumnName="value_aValues" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="Model.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="id_equipment" ColumnName="id_equipment" />
+                <ScalarProperty Name="code_equipment" ColumnName="code_equipment" />
+                <ScalarProperty Name="name_equipment" ColumnName="name_equipment" />
+                <ScalarProperty Name="description_equipment" ColumnName="description_equipment" />
+                <ScalarProperty Name="fabricator_equipment" ColumnName="fabricator_equipment" />
+                <ScalarProperty Name="category_equipment" ColumnName="category_equipment" />
+                <ScalarProperty Name="col_equipment" ColumnName="col_equipment" />
+                <ScalarProperty Name="price_equipment" ColumnName="price_equipment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fabricators">
+            <EntityTypeMapping TypeName="Model.Fabricator">
+              <MappingFragment StoreEntitySet="Fabricators">
+                <ScalarProperty Name="id_fabricator" ColumnName="id_fabricator" />
+                <ScalarProperty Name="name_fabricator" ColumnName="name_fabricator" />
+                <ScalarProperty Name="tel_fabricator" ColumnName="tel_fabricator" />
+                <ScalarProperty Name="inn_fabricator" ColumnName="inn_fabricator" />
+                <ScalarProperty Name="description_fabricator" ColumnName="description_fabricator" />
+                <ScalarProperty Name="doing_fabricator" ColumnName="doing_fabricator" />
+                <ScalarProperty Name="contactName_fabricator" ColumnName="contactName_fabricator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parts">
+            <EntityTypeMapping TypeName="Model.Part">
+              <MappingFragment StoreEntitySet="Parts">
+                <ScalarProperty Name="id_part" ColumnName="id_part" />
+                <ScalarProperty Name="equipment_part" ColumnName="equipment_part" />
+                <ScalarProperty Name="code_part" ColumnName="code_part" />
+                <ScalarProperty Name="name_part" ColumnName="name_part" />
+                <ScalarProperty Name="description_part" ColumnName="description_part" />
+                <ScalarProperty Name="col_part" ColumnName="col_part" />
+                <ScalarProperty Name="price_part" ColumnName="price_part" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сategories">
+            <EntityTypeMapping TypeName="Model.Сategories">
+              <MappingFragment StoreEntitySet="Сategories">
+                <ScalarProperty Name="id_category" ColumnName="id_category" />
+                <ScalarProperty Name="name_category" ColumnName="name_category" />
+                <ScalarProperty Name="description_category" ColumnName="description_category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

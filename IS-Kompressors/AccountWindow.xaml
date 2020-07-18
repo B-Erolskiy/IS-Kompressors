@@ -1,0 +1,50 @@
+﻿<mah:MetroWindow  x:Class="IS_Kompressors.AccountWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Kompressors"
+        mc:Ignorable="d"
+         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="ИС Компрессорное оборудование"
+      GlowBrush="{DynamicResource AccentColorBrush}"
+      WindowStyle="SingleBorderWindow"
+      WindowStartupLocation="CenterScreen"
+      FontFamily="Microsoft NeoGothic" 
+      FontSize="16">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="title" Content="Авторизация" FontSize="26" Grid.Row="0" HorizontalContentAlignment="Center" VerticalAlignment="Center" Height="44"  Grid.ColumnSpan="4" />
+
+        <Label Content="Логин" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="164" />
+        <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="login" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="154" Height="26"  Margin="10,10" />
+        
+        <Label Content="ФИО" x:Name="fioLabel" Visibility="Hidden" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Height="29" Width="164" />
+        <TextBox mah:TextBoxHelper.ClearTextButton="True" Visibility="Hidden"  x:Name="fio" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Width="154" Height="26"  Margin="10,10"/>
+
+        <Label Content="Пароль" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" Height="29" Width="164" />
+        <PasswordBox mah:TextBoxHelper.ClearTextButton="True" x:Name="password" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="154" Height="26"  Margin="10,10" />
+        
+        <Label Content="Повторите пароль" x:Name="repeatLabel" HorizontalAlignment="Left" Visibility="Hidden" Grid.Column="1" Grid.Row="4" VerticalAlignment="Top" Height="29" Width="164" />
+        <PasswordBox mah:TextBoxHelper.ClearTextButton="True" Visibility="Hidden" x:Name="passwordRepeat" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Width="154" Height="26"  Margin="10,10" />
+        <WrapPanel Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center">
+            <Button Click="loginButton_Click"  Style="{StaticResource AccentedSquareButtonStyle}" Content="ок" x:Name="loginButton" HorizontalAlignment="Center" Margin="5px" Height="39" Width="164" />
+            <Button Click="regButton_Click"  Style="{StaticResource SquareButtonStyle}" Content="регистрация" x:Name="regButton" HorizontalAlignment="Center" Margin="5px" Height="39" Width="164" />
+            <Button Click="cancelbutton_Click"  Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Center" Content="Выйти" x:Name="cancelbutton" Margin="5px" Height="39" Width="164" />
+        </WrapPanel>
+        </Grid>
+</mah:MetroWindow>

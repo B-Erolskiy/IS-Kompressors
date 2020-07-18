@@ -1,0 +1,39 @@
+﻿<mah:MetroWindow x:Class="IS_Kompressors.Authorize"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Kompressors"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="Информационная система Музыкальный Салон" Height="400" Width="300" FontSize="14" WindowStartupLocation="CenterScreen" FontFamily="Microsoft NeoGothic">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="57*"/>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="57*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="main" Content="Авторизация" FontSize="25" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" />
+            <Label x:Name="error" Content="Неверный логин или пароль!" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#FFF30000" Visibility="Hidden" FontSize="13" Grid.ColumnSpan="3" Width="292" />
+
+            <Label x:Name="login" Content="Логин" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" />
+            <TextBox x:Name="loginBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="155" Height="25"  Margin="9,0,0,9"/>
+
+            <Label x:Name="password" Content="Пароль" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" />
+            <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2"  VerticalAlignment="Bottom" Width="155" Height="25" Margin="9,0,0,9"/>
+
+            <Label x:Name="passwordRepeat" Content="Повторите пароль" HorizontalAlignment="Left" Grid.Column="1" Visibility="Hidden" Grid.Row="3" VerticalAlignment="Top" />
+            <PasswordBox x:Name="passwordBoxRepeat" HorizontalAlignment="Left" Grid.Column="1" Visibility="Hidden" Grid.Row="3"  VerticalAlignment="Bottom" Width="155" Height="25" Margin="9,0,0,9"/>
+            <Button x:Name="authorize" Content="OК" Width="155" Grid.Column="1" Grid.Row="4" Height="25" Click="authorize_Click" VerticalAlignment="Top" />
+            <Button x:Name="registrate" IsEnabled="False"  Content="Регистрация" Width="155" Grid.Column="1" Grid.Row="4" Height="25" Click="registrate_Click"  VerticalAlignment="Center" Margin="12,0,12,5" />
+            <Button x:Name="exit" Content="Выход" Width="155" Grid.Column="1" Grid.Row="4" Height="25" Click="exit_Click"  VerticalAlignment="Bottom" Margin="12,0,12,5"  />
+        </Grid>
+    </mah:MetroWindow>
+

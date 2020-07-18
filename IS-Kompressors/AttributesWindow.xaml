@@ -1,0 +1,42 @@
+﻿<mah:MetroWindow x:Class="IS_Kompressors.AttributesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Kompressors"
+        mc:Ignorable="d"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="ИС Компрессорное оборудование" 
+      WindowStyle="SingleBorderWindow"
+      WindowStartupLocation="CenterScreen" 
+      FontFamily="Microsoft NeoGothic" 
+      FontSize="16"
+      GlowBrush="{DynamicResource AccentColorBrush}"
+      Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="AttributesTitle" Content="Добавление характеристики" FontSize="26" Grid.Row="0" HorizontalContentAlignment="Center" VerticalAlignment="Center" Height="44" Margin="0,70,0,19" Grid.ColumnSpan="4" />
+
+        <Label Content="Название" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="164" />
+        <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="nameAttributesTextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Height="26"  Margin="10,35"/>
+
+        <Label Content="Описание" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Height="29" Width="174" />
+        <RichTextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="descriptionAttributesTextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="220" Height="56" Margin="10,30"/>
+
+        <Button Click="createAttributes_Click" Style="{StaticResource AccentedSquareButtonStyle}" Content="добавить" x:Name="createAttributes" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="4" Height="39" Width="164" Margin="-170,15,12,15"/>
+        <Button Click="cancelAttributes_Click" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Center" Content="Выйти" x:Name="cancelAttributes" Grid.Column="1" Grid.Row="4" Height="39" Width="164" Margin="170,15,0,15"/>
+
+    </Grid>
+</mah:MetroWindow>

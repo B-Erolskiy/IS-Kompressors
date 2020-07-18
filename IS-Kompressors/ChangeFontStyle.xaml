@@ -1,0 +1,47 @@
+﻿<mah:MetroWindow x:Class="IS_Kompressors.ChangeFontStyle"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Kompressors"
+         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        Title="ИС Компрессорное оборудование" 
+      WindowStyle="SingleBorderWindow"
+      WindowStartupLocation="CenterScreen" 
+      FontSize="16"
+      GlowBrush="{DynamicResource AccentColorBrush}" >
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="fontSelector" 
+             ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectionChanged="fontSelector_SelectionChanged" />
+
+        <ListBox x:Name="typefaceSelector" 
+             ItemsSource="{Binding SelectedItem.FamilyTypefaces, ElementName=fontSelector}" DisplayMemberPath="AdjustedFaceNames[en-US]" 
+             Grid.Column="1" SelectionChanged="typefaceSelector_SelectionChanged" />
+        <Slider x:Name="changeFontSize"  Grid.ColumnSpan="2" Grid.Row="1" Width="400" VerticalAlignment="Center" Minimum="5" Maximum="72" SmallChange="1" Value="16" ValueChanged="changeFontSize_ValueChanged" AutoToolTipPlacement="BottomRight" />
+        <TextBlock FontFamily="{Binding SelectedItem.Source, ElementName=fontSelector}"
+               FontStretch="{Binding SelectedItem.Stretch, ElementName=typefaceSelector}"
+               FontStyle="{Binding SelectedItem.Style, ElementName=typefaceSelector}"
+               FontWeight="{Binding SelectedItem.Weight, ElementName=typefaceSelector}"
+               Grid.ColumnSpan="2" Grid.Row="2"
+               Text="Пример текста"
+               x:Name="sample"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center" />
+        <Button Click="submit_Click" Style="{StaticResource AccentedSquareButtonStyle}" Content="применить" x:Name="submit" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3" Height="39" Width="164" Margin="0,17,12,14"/>
+        <Button Click="cancel_Click" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Content="Выйти" x:Name="cancel" Grid.Column="1" Grid.Row="3" Height="39" Width="164" Margin="12,15,0,15"/>
+
+    </Grid>
+</mah:MetroWindow>

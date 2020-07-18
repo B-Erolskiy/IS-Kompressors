@@ -1,0 +1,84 @@
+﻿<mah:MetroWindow x:Class="IS_Kompressors.AddEquipment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Kompressors"
+        mc:Ignorable="d"
+         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="ИС Компрессорное оборудование"
+      GlowBrush="{DynamicResource AccentColorBrush}"
+      WindowStyle="SingleBorderWindow"
+      WindowStartupLocation="CenterScreen"
+      FontFamily="Microsoft NeoGothic" 
+      FontSize="16">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="133*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="93*"/>
+            <RowDefinition Height="116*"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="EquipmentTitle" Content="Добавление оборудования" FontSize="26" Grid.Row="0" HorizontalContentAlignment="Center" VerticalAlignment="Center" Height="44" Margin="0,70,0,19" Grid.ColumnSpan="4" />
+
+        <Label Content="Артикул" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="164" />
+        <TextBox  mah:TextBoxHelper.ClearTextButton="True" x:Name="codeEquipmentTextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="154" Height="26"  Margin="10,0,0,26"/>
+
+        <Label Content="Название" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Height="29" Width="164" />
+        <TextBox  mah:TextBoxHelper.ClearTextButton="True" x:Name="nameEquipmentTextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="154" Height="26"  Margin="10,0,0,26"/>
+
+        <Label Content="Описание" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" Height="29" Width="164" />
+        <RichTextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="descriptionEquipmentTextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="150" Height="56"  Margin="14,0,0,26" Grid.ColumnSpan="2"/>
+
+        <Label Content="Производитель" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="164" />
+        <ComboBox Name="fabricatorEquipmentComboBox"
+                  DisplayMemberPath="name_fabricator"
+                  SelectedValuePath="id_fabricator"
+                  Grid.Column="2" Grid.Row="1"
+                  Width="155"
+                  Height="26" Margin="-10,13,0,0"  />
+        
+        <Label Content="Категория" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" Height="29" Width="164" />
+        <ComboBox Name="categoriesEquipmentComboBox" 
+                  DisplayMemberPath="name_category"
+                  SelectedValuePath="id_category"
+                  Grid.Column="2" Grid.Row="2"
+                  Width="155"
+                  Height="26" Margin="-10,13,0,0"  />
+        
+        <Label Content="Цена" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="3" VerticalAlignment="Top" Height="29" Width="164" />
+        <TextBox mah:TextBoxHelper.ClearTextButton="True" x:Name="priceEquipmentTextBox" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="154" Height="26"  Margin="10,0,0,56" PreviewTextInput="priceEquipmentTextBox_PreviewTextInput"/>
+
+
+        <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="3">
+                <Label Content="Характеристики" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" Height="29" Width="164" />
+                <WrapPanel>
+                    <ComboBox Name="attributesEquipmentComboBox" 
+                  DisplayMemberPath="name_attribute"
+                  SelectedValuePath="id_attribute"
+                  Width="155"
+                  Height="26" Margin="10,-17,0,0" />
+                    <Button Click="AddAttribute_Click"  Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Content="добавить" x:Name="AddAttribute" Grid.Column="2" Grid.Row="4" Height="35" Width="104" Margin="12,15,0,15"/>
+                    
+                </WrapPanel>
+            <ScrollViewer Grid.Row="2" Grid.RowSpan="2" Grid.Column="3">
+                <StackPanel Name="attributesPanel">
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+        
+        <Button Click="createEquipment_Click" Style="{StaticResource AccentedSquareButtonStyle}" Content="добавить" x:Name="createEquipment" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="4" Height="39" Width="164" Margin="0,15,12,15"/>
+        <Button Click="cancelEquipment_Click" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Content="Выйти" x:Name="cancelEquipment" Grid.Column="2" Grid.Row="4" Height="39" Width="164" Margin="12,15,0,15"/>
+
+    </Grid>
+</mah:MetroWindow>
