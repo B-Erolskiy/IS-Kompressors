@@ -337,6 +337,13 @@
     <Resource Include="Images\fontStyle.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Screenshots\editing.png" />
+    <Resource Include="Screenshots\export.png" />
+    <Resource Include="Screenshots\main-page.png" />
+    <Resource Include="Screenshots\registration.png" />
+    <Resource Include="Screenshots\report.png" />
+    <Resource Include="Screenshots\styles.png" />
+    <Resource Include="Screenshots\Video_2018-06-08_224332.gif" />
     <Resource Include="Images\me.jpg" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
